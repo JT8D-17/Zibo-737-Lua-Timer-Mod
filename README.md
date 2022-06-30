@@ -58,7 +58,7 @@ If backup file is found, it is copied and renamed to the name of the original Lu
 
 ## Download &Installation
 
-- Download the archive with the green "Code" button and then select "Download as ZIP".
+- Download the archive with the green "Code" button and then select "Download ZIP".
 - Unzip the archive and move _zibo_perfmod.py_ and _zibo_perfmod_restorebackup.py_ into _B737-800X/plugins/xlua/scripts_.
 
 &nbsp;
