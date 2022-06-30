@@ -112,3 +112,63 @@ My framerate has not increased after the modifications!
 
 HELP!! I did not read the readme and now I have messed up my system with your scripts!!
 - Tough luck. :)
+
+&nbsp;
+
+## Zibo Lua Script Assessment
+
+This assesses the modified Lua scripts of Zibo's 737 for time critical elements.
+Can be used to prioritize which script needs to be restored from backup in case things go wrong.   
+Note: This is my purely personal assessment.
+
+- _B738.a_AXP_1_EQ_commands_:   
+Equalizer command wrappers for the FMOD sound set   
+--> Time criticality: None (5 lines of code in a after_physics() function)
+
+- _B738.a_AXP_2_flightcontrol_commands_:   
+Start/end leg command wrappers for the FMOD sound set   
+--> Time criticality: None (no before/after_physics() functions)
+
+- _B738.a_AXP_3_FMOD_commands_:   
+Command wrappers for the FMOD sound set   
+--> Time criticality: None (no before/after_physics() functions)
+
+- _B738.a_AXP_4_FMOD_logic_:   
+Control logic for the FMOD sound set,   
+--> Time criticality: Low
+
+- _B738.a_fms.lua_:   
+FMS logic, state management    
+--> Time criticality: High to medium
+
+- _B738.anav.lua_:   
+Environmental effects like rain or ice, wiper logic, hud logic   
+--> Time criticality: Medium to low
+
+- _B738.calc.lua_:   
+Calculations for Vspeeds, Vref,  Takeoff trim, N1 bugs   
+--> Time criticality: Low
+
+- _B738.glaresheild.lua_:   
+Glareshield controls (ND controls, MCP, etc.), state management, autopilot logic   
+--> Time criticality: High
+
+- _B738.LATLON.lua_:   
+IRS system management   
+--> Time criticality: Medium
+
+- _B738.LATLON.lua_:   
+IRS system management   
+--> Time criticality: Medium
+
+- _B738.tablet.lua_:   
+Tablet option management   
+--> Time criticality: Low to very low
+
+- _B738.zz.sim_cockpit.lua_:   
+Interface for custom datarefs and custom commands for use with external hardware   
+--> Time criticality: Medium iif using external hardware, low to very low if not
+
+- _B738.ZZZ_AXP_5_added_logic_ULTIMATE.lua_:   
+Audio management for the Ultimate 737 package   
+--> Time criticality: Very low
