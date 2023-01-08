@@ -2,9 +2,7 @@
 '''
 LIBRARIES
 '''
-import pathlib
-import os
-import shutil
+import pathlib,os,shutil,re
 '''
 VARIABLES
 '''
@@ -29,21 +27,25 @@ for x in files:
     f = open(file,'r')
     filedata = f.read()
     f.close()
-    # Make a backup of the file if it contains any physics functions
-    if 'function before_physics()' or "function after_physics()" in filedata:
+    score = 0
+    newdata = None
+    # Find physics functions in the files and make a backup if any are found
+    if re.findall('^\sfunction before_physics',filedata,re.MULTILINE) or re.findall('^\sfunction after_physics',filedata,re.MULTILINE):
         shutil.copyfile(file, file+".bak")
-        print("Modification process starting; making backup of "+x[0])
+        print("\nPhysics found in "+x[0]+", making a backup.")
     # Change name of before_physics() function, if it's present
-    if 'function before_physics()' in filedata:
+    if re.findall('^\sfunction before_physics',filedata,re.MULTILINE):
         newdata = filedata.replace("function before_physics()","function timed_before_physics()")
         newdata = newdata + "\nrun_at_interval(timed_before_physics,"+str(x[1])+")"
+        filedata = newdata # Write back to filedata
         print("Found and modified before_physics() in "+x[0])
     # Change name of after_physics() function, if it's present
-    if "function after_physics()" in filedata:
+    if re.findall('^\sfunction after_physics',filedata,re.MULTILINE):
         newdata = filedata.replace("function after_physics()","function timed_after_physics()")
         newdata = newdata + "\nrun_at_interval(timed_after_physics,"+str(x[1])+")"
         print("Found and modified after_physics() in "+x[0])
-    f = open(file,'w')
-    f.write(newdata)
-    f.close()
-    print("Finished modification of "+x[0]+"\n")
+    if newdata is not None:
+        f = open(file,'w')
+        f.write(newdata)
+        f.close()
+        print("Finished modification of "+x[0]+"\n")
